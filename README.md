@@ -10,7 +10,7 @@ Follow these steps to set up and initialize the application:
 
 Ensure you have Python 3 and `pip` installed.
 
-Ensure you have SQLite installed.
+Ensure you have SQLite3 installed.
 
 ### 2. Install Dependencies
 
