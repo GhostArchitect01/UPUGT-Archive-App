@@ -24,11 +24,7 @@ pip install -r requirements.txt
 
 The application uses a SQLite database to store thread and post information. You need to initialize the database schema before first use.
 
-```bash
-python init_db.py
-```
-
-This will create a `forum.db` file in the `database/` directory with the necessary tables.
+UPDATE: This should be done automatically by `db_inserter.py` when `pipeline.py` is run.
 
 ### 4. Configuration
 
