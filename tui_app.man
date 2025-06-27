@@ -1,0 +1,75 @@
+TUI_APP(1)                                                      User Manuals                                                      TUI_APP(1)
+
+NAME
+       tui_app - Command-line tools for managing Utopia Forums data
+
+SYNOPSIS
+       python sync_board.py
+       python pipeline.py [THREAD_ID...]
+
+DESCRIPTION
+       This manual page documents the command-line interface for the tui_app project, which provides tools for fetching, parsing, and storing data from Utopia Forums.
+
+       The project consists of several Python scripts, with sync_board.py and pipeline.py being the primary entry points for data synchronization and processing.
+
+SYNC_BOARD.PY
+       NAME
+              sync_board.py - Synchronize Utopia Forums data
+
+       SYNOPSIS
+              python sync_board.py
+
+       DESCRIPTION
+              The sync_board.py script is used to synchronize the local database with the latest threads from the Utopia Forums "Politics" board. It fetches the forum's index page, identifies all available thread IDs, and then initiates a data processing pipeline for these threads.
+
+              This script does not take any command-line arguments. It automatically connects to the configured forum URL and database path.
+
+       FUNCTIONALITY
+              1.  Fetches the HTML content of the forum's index page.
+              2.  Parses the HTML to extract all unique thread IDs present on the page.
+              3.  Passes the list of identified thread IDs to the pipeline.py script for further processing (downloading, parsing, and inserting into the database).
+
+       EXAMPLES
+              To run the synchronization process:
+              $ python sync_board.py
+
+PIPELINE.PY
+       NAME
+              pipeline.py - Process Utopia Forums threads
+
+       SYNOPSIS
+              python pipeline.py [THREAD_ID | START-END]...
+
+       DESCRIPTION
+              The pipeline.py script executes a full data processing pipeline for a given list of thread IDs or ranges of thread IDs. This pipeline involves downloading the raw HTML for each thread, parsing it into a structured text format, and then inserting the extracted data into the local SQLite database.
+
+              This script is typically called by sync_board.py, but can also be run manually to process specific threads or ranges of threads.
+
+       OPTIONS
+              [THREAD_ID | START-END]...
+                     A space-separated list of one or more thread IDs or ranges of thread IDs to process. Each ID corresponds to a specific forum thread.
+                     Ranges are specified as START-END (e.g., 100-105) and will include all integers within that range, inclusive.
+
+       FUNCTIONALITY
+              1.  Downloads the raw HTML content for each specified thread ID into the html_raw/ directory.
+              2.  Parses the downloaded HTML files, extracting post information (poster, timestamp, content, etc.), and saves it into a structured text format in the text_phrased/ directory.
+              3.  Inserts the parsed post data into the forum.db SQLite database.
+
+       EXAMPLES
+              To process a single thread with ID 94500:
+              $ python pipeline.py 94500
+
+              To process multiple threads with IDs 94500, 94501, and 94502:
+              $ python pipeline.py 94500 94501 94502
+
+              To process a range of threads from 94500 to 94525 (inclusive):
+              $ python pipeline.py 94500-94525
+
+              To process a combination of individual threads and ranges:
+              $ python pipeline.py 94500 94505-94510 94520
+
+SEE ALSO
+       html_parser.py(1), db_inserter.py(1), thread_downloader.py(1)
+
+AUTHOR
+       This manual page was written by a Gemini AI.
