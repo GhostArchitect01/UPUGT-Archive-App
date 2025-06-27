@@ -9,6 +9,7 @@ Follow these steps to set up and initialize the application:
 ### 1. Prerequisites
 
 Ensure you have Python 3 and `pip` installed.
+
 Ensure you have SQLite.
 
 ### 2. Install Dependencies
