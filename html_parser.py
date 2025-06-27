@@ -8,7 +8,7 @@ from datetime import datetime
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
 from utils.timestamp_utils import infer_year
-from config import HTML_RAW_DIR, TEXT_PHRASED_DIR
+from config import HTML_RAW_DIR, TEXT_PHRASED_DIR, FORCE_PARSE
 
 def extract_posts(soup, thread_id):
     posts = []
@@ -72,6 +72,8 @@ def extract_posts(soup, thread_id):
 def parse_thread_html(thread_id):
     html_path = os.path.join(HTML_RAW_DIR, f"thread_{thread_id}.html")
     output_path = os.path.join(TEXT_PHRASED_DIR, f"thread_{thread_id}.txt")
+
+    
 
     if not os.path.exists(html_path):
         print(f"[!] HTML not found for thread {thread_id}")

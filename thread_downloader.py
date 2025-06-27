@@ -8,7 +8,7 @@ import requests
 import time
 import logging
 
-from config import HTML_RAW_DIR, FORUM_BASE_URL, FORUM_SECTION, LOG_FILE_PATH
+from config import HTML_RAW_DIR, FORUM_BASE_URL, FORUM_SECTION, LOG_FILE_PATH, FORCE_DOWNLOAD
 
 # Ensure HTML output directory exists
 os.makedirs(HTML_RAW_DIR, exist_ok=True)
@@ -28,8 +28,12 @@ def download_thread(thread_id):
     url = construct_thread_url(thread_id)
     output_path = os.path.join(HTML_RAW_DIR, f"thread_{thread_id}.html")
 
+    if os.path.exists(output_path) and not FORCE_DOWNLOAD:
+        logger.info(f"Skipping download for thread {thread_id}: File already exists and FORCE_DOWNLOAD is False.")
+        return True
+
     try:
-        response = requests.get(url, timeout=10)
+        response = requests.get(url, timeout=30)
         if response.status_code == 200:
             with open(output_path, "w", encoding="utf-8") as f:
                 f.write(response.text)
